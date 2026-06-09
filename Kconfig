@@ -1,0 +1,23 @@
+#
+# Copyright (c) 2026 Nordic Semiconductor ASA
+#
+# SPDX-License-Identifier: LicenseRef-Nordic-5-Clause
+#
+
+menu "Person Detection"
+
+config SCORE_THRESHOLD
+	int "Model score threshold, in per mille"
+	range 0 1000
+	default 250
+
+config IOU_THRESHOLD
+	int "Boxes IoU threshold, in per mille"
+	range 0 1000
+	default 450
+
+endmenu
+
+source "samples/subsys/usb/common/Kconfig.sample_usbd"
+
+source "Kconfig.zephyr"
