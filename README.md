@@ -12,7 +12,7 @@ This application uses minimal and customized driver for the ArduCam Camera to ac
 
 The application supports the following development kit:
 
-* nRF54LM20 DK (target `nrf54lm20dk/nrf54lm20/cpuapp`)
+* nRF54LM20 DK (target `nrf54lm20dk/nrf54lm20b/cpuapp`)
 
 It also requires:
 
@@ -93,7 +93,8 @@ No detections
 ## Image stream and result visualization
 
 Captured image and model prediction are streamed over USB CDC ACM.
-Connect the DK's SoC USB port to PC with USB cable.
+Connect the DK to the PC using SoC USB port.
+The SoC USB port is located next to debugger USB port.
 Run the host viewer with the USB CDC ACM serial port as the first argument.
 The viewer will show the captured frame, framerate and bounding boxes with their prediction score.
 
@@ -103,7 +104,7 @@ python scripts/live_usb_person_detection.py --port /dev/ttyACM2
 
 Dependencies: `pyserial`, `opencv-python`, `numpy`.
 
-If the board is the only serial device connected to the host:
+If the board is the only serial device connected with both USB ports to the host:
 
 - `COM0`/`ttyACM0` and `COM1`/`ttyACM1` are for the debugger
 - `COM2`/`ttyACM2` is USB CDC ACM
