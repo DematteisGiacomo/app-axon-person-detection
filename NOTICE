@@ -1,0 +1,6 @@
+Person Detection Demo
+Copyright (c) 2026, Nordic Semiconductor ASA
+
+The Initial Developer of the src/drivers/arducam_mega.c, src/drivers/arducam_mega.h
+and dts/bindings/arducam,mega.yaml, is Arducam Technology Co., Ltd. (www.arducam.com)
+Licensed under the Apache License, Version 2.0

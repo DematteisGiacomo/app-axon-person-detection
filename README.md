@@ -108,3 +108,8 @@ If the board is the only serial device connected with both USB ports to the host
 
 - `COM0`/`ttyACM0` and `COM1`/`ttyACM1` are for the debugger
 - `COM2`/`ttyACM2` is USB CDC ACM
+
+## License
+
+5-Clause Nordic License, see [LICENSE](LICENSE).
+Selected components have different licensing, see [NOTICE](NOTICE).
