@@ -16,6 +16,20 @@ config IOU_THRESHOLD
 	range 0 1000
 	default 450
 
+config COMPANION_LINK
+	bool "UART link to nRF9151 companion"
+	default y
+	depends on SERIAL
+	help
+	  Send person-detect thumbnails to nRF9151 over companion UART.
+
+config COMPANION_MIN_INTERVAL_SEC
+	int "Minimum seconds between companion uplink events"
+	default 900
+	depends on COMPANION_LINK
+	help
+	  Debounce Iridium triggers from repeated detections.
+
 endmenu
 
 source "samples/subsys/usb/common/Kconfig.sample_usbd"

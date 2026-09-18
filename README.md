@@ -109,6 +109,30 @@ If the board is the only serial device connected with both USB ports to the host
 - `COM0`/`ttyACM0` and `COM1`/`ttyACM1` are for the debugger
 - `COM2`/`ttyACM2` is USB CDC ACM
 
+## Companion UART (nRF9151 / Iridium demo)
+
+Person detect can send a small luma thumbnail to an nRF9151 over a **separate** UART so **app logs stay on the debugger VCOM** (UART20 on **P1.16 / P1.17**, e.g. J-Link `…-if02`). Leave **Serial Port 1** routed to the interface MCU in Board Configurator.
+
+Companion uses **UARTE21** on **P1.13 TX / P1.14 RX** (`boards/nrf54lm20dk_nrf54lm20b_cpuapp_companion.overlay`). **P1.13** is expansion header **D5**; see the DK pin map for **P1.14**. Do not use **P1.13** for PPK postprocessing trace at the same time.
+
+Wire to nRF9151 DK UART1 (115200, cross TX/RX, common GND only):
+
+| nRF54LM20 | nRF9151 DK |
+| --- | --- |
+| P1.13 TX | P0.28 RX (Arduino RX) |
+| P1.14 RX (optional) | P0.29 TX (Arduino TX) |
+| GND | GND |
+
+Build with companion (from this app directory):
+
+```bash
+west build -b nrf54lm20dk/nrf54lm20b/cpuapp -- \
+  -DDTC_OVERLAY_FILE="boards/nrf54lm20dk_nrf54lm20b_cpuapp.overlay;boards/nrf54lm20dk_nrf54lm20b_cpuapp_companion.overlay"
+west flash
+```
+
+Framing: `../common/companion_proto.{h,c}` (shared with Asset Tracker). Debounce: `CONFIG_COMPANION_MIN_INTERVAL_SEC` in `prj.conf`.
+
 ## License
 
 5-Clause Nordic License, see [LICENSE](LICENSE).

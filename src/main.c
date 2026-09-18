@@ -18,6 +18,8 @@
 #include <drivers/axon/nrf_axon_nn_infer.h>
 
 #include "generated/nrf_axon_model_person_det_.h"
+#include "companion_uart.h"
+#include "image_thumb.h"
 #include "postprocessing.h"
 #include "usb_stream.h"
 
@@ -50,6 +52,8 @@ static int8_t lut_red_blue[LUT_SIZE_5_BITS];
 static int8_t lut_green[LUT_SIZE_6_BITS];
 
 static uint32_t frame_id;
+
+static uint8_t detect_thumb[THUMB_BYTES];
 
 static const struct gpio_dt_spec led_capture = GPIO_DT_SPEC_GET(DT_ALIAS(led0), gpios);
 static const struct gpio_dt_spec led_detection = GPIO_DT_SPEC_GET(DT_ALIAS(led1), gpios);
@@ -219,6 +223,11 @@ static int capture_and_detect(const struct device *video, const nrf_axon_nn_comp
 				   PAD_LEFT, PAD_TOP, boxes, n);
 
 	if (n > 0) {
+		image_thumb_from_model_input(input_buf, MODEL_WIDTH, MODEL_HEIGHT, detect_thumb,
+					     sizeof(detect_thumb));
+		(void)companion_uart_send_detection(frame_id, boxes, n, detect_thumb,
+						    sizeof(detect_thumb));
+
 		(void)gpio_pin_set_dt(&led_detection, 1);
 		log_bounding_boxes(boxes, n);
 	} else {
@@ -293,6 +302,11 @@ int main(void)
 	err = usb_stream_init();
 	if (err != 0) {
 		LOG_WRN("USB stream init failed (err %d), continuing without streaming", err);
+	}
+
+	err = companion_uart_init();
+	if (err != 0) {
+		LOG_WRN("Companion UART init failed (err %d)", err);
 	}
 
 	nrf_gpio_cfg_output(TRACE_PIN_CAPTURE);
