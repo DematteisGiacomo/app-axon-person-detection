@@ -51,7 +51,7 @@ Either initialize a west workspace from this repository or use existing workspac
 
 Postprocessing thresholds are Kconfig options (values in per mille, 0–1000):
 
-- `CONFIG_SCORE_THRESHOLD` — detection score cutoff (default 250)
+- `CONFIG_SCORE_THRESHOLD` — detection score cutoff in ‰ (default 900 = 0.9)
 - `CONFIG_IOU_THRESHOLD` — non-maximum suppression IoU cutoff (default 450)
 
 Tune them in `prj.conf` or via `menuconfig` under **Person Detection**.
@@ -61,14 +61,14 @@ Tune them in `prj.conf` or via `menuconfig` under **Person Detection**.
 Debug build (logging enabled):
 
 ```bash
-west build -b nrf54lm20dk/nrf54lm20/cpuapp
+west build -b nrf54lm20dk/nrf54lm20b/cpuapp
 west flash
 ```
 
 Release build:
 
 ```bash
-west build -b nrf54lm20dk/nrf54lm20/cpuapp -- -DFILE_SUFFIX=release
+west build -b nrf54lm20dk/nrf54lm20b/cpuapp -- -DFILE_SUFFIX=release
 west flash
 ```
 
